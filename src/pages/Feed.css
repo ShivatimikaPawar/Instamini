@@ -1,0 +1,37 @@
+.feed-container {
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.feed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.post-card {
+  background-color: #fff;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.post-card img {
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+}
+
+.post-card p {
+  padding: 0 10px;
+}
+
+.post-actions {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+}
+
+

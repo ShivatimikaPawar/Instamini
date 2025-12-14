@@ -1,0 +1,65 @@
+.Toggle {
+    position: absolute;
+    right: 10px;
+    width: 35px;
+    padding: 10px 0;
+    top: 2px;
+}
+
+.Togglecontainer {  
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #020a2b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-color 0.4s ease;
+}
+
+.light-mode .Togglecontainer {
+  background-color: #ffffff;
+}
+
+#themeToggle {
+  font-size: 20px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+  width: 100%;
+  height: 100%;
+}
+
+#themeToggle:hover {
+  transform: scale(1.15) rotate(10deg);
+}
+
+/* Global theme variables */
+:root {
+  --bg: #070422e5;
+  --text-color: #fff0ca;
+  --page-bg: #08042436;
+  --card: #070422ff;
+}
+
+.light-mode {
+  --bg: #f7fafe;
+  --text-color: #000000c3;
+  --page-bg: #e2ecfff2;
+  --card: rgb(135, 170, 251);
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.4s ease, color 0.4s ease;
+}

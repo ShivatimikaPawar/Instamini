@@ -1,0 +1,153 @@
+/* ROOT FIX */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+/* RESET */
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* PAGE */
+.login-page {
+  min-height: 100vh;
+  background:var(--page-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* CARD */
+.login-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 1000px;
+  min-height: 560px;
+  display: flex;
+  border-radius: 22px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+/* FORM */
+.login-form {
+  flex: 1;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-form h2 {
+  font-size: 34px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.subtitle {
+  color: #777;
+  margin-bottom: 30px;
+}
+
+.login-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.login-form input {
+  padding: 14px 16px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.login-form input:focus {
+  border-color: var(--bg);
+  outline: none;
+}
+
+.login-form button {
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: #ffb703;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.login-form button:hover {
+  background: #f9a602;
+}
+
+.forgot {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #999;
+  cursor: pointer;
+}
+
+/* LOTTIE – DESKTOP ONLY */
+.login-animation {
+  flex: 1;
+  background: var(--card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lottie {
+  width: 85%;
+  max-width: 420px;
+}
+
+.signup-text {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #666;
+}
+
+.signup-link {
+  color: #ffb703;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.signup-link:hover {
+  text-decoration: underline;
+}
+
+
+/* MOBILE & TABLET – HIDE IMAGE COMPLETELY */
+@media (max-width: 900px) {
+  .login-animation {
+    display: none;
+  }
+
+  .login-card {
+    max-width: 420px;
+  }
+
+  .login-form {
+    padding: 40px 30px;
+  }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+  .login-form {
+    padding: 30px 20px;
+  }
+
+  .login-form h2 {
+    font-size: 26px;
+  }
+}
+
+

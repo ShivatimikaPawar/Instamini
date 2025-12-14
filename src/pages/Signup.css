@@ -1,0 +1,144 @@
+/* ROOT FIX */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+/* RESET */
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* PAGE */
+.signup-page {
+  min-height: 100vh;
+  background: var(--page-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* CARD */
+.signup-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 1000px;
+  min-height: 560px;
+  display: flex;
+  border-radius: 22px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+/* FORM */
+.signup-form {
+  flex: 1;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.signup-form h2 {
+  font-size: 34px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.subtitle {
+  color: #777;
+  margin-bottom: 30px;
+}
+
+.signup-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.signup-form input {
+  padding: 14px 16px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.signup-form input:focus {
+  border-color: var(--bg);
+  outline: none;
+}
+
+.signup-form button {
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: #ffb703;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.signup-form button:hover {
+  background: #f9a602;
+}
+
+/* LOGIN LINK */
+.login-text {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #666;
+}
+
+.login-link {
+  color: #ffb703;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+/* LOTTIE – DESKTOP ONLY */
+.signup-animation {
+  flex: 1;
+  background: var(--card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lottie {
+  width: 85%;
+  max-width: 420px;
+}
+
+/* MOBILE & TABLET */
+@media (max-width: 900px) {
+  .signup-animation {
+    display: none;
+  }
+
+  .signup-card {
+    max-width: 420px;
+  }
+
+  .signup-form {
+    padding: 40px 30px;
+  }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+  .signup-form {
+    padding: 30px 20px;
+  }
+
+  .signup-form h2 {
+    font-size: 26px;
+  }
+}
