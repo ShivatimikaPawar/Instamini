@@ -1,16 +1,70 @@
-# React + Vite
+# Instagram Mini Clone
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A **mini Instagram-style web app** built with the **MERN stack** (MongoDB, Express, React, Node.js).  
+Users can signup/login, follow others, create posts, like, comment, and view a feed of posts.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+### Backend
+- **User Authentication**: Signup, Login, JWT-based auth, Password hashing  
+- **Follow System**: Follow / Unfollow users with proper relationships  
+- **Posts**: Create posts (image + caption), Like / Unlike posts, Comment on posts  
+- **Feed**: Fetch posts from users the logged-in user follows  
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Frontend
+- **Screens**:  
+  - Login & Signup: store token securely, redirect on login  
+  - Home Feed: list posts with image, caption, likes, comments  
+  - Create Post: add new post with image URL + caption  
+  - Profile Page: user posts, follower/following count, Follow/Unfollow button  
+  - Post Detail: full view, interactive like/comment UI  
+- **Technologies**: React + Vite, Axios (`instagramAPI.js`), React Router DOM, state management with hooks, responsive design  
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Project Setup
+
+### Backend
+
+1. Navigate to backend:
+
+```bash
+cd backend
+
+2. Install dependencies:
+
+npm install
+
+3. Create .env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+PORT=5000
+
+4. Start backend server:
+
+node server.js
+Backend runs on http://localhost:5000.
+
+Frontend
+
+1. Navigate to frontend:
+
+cd frontend
+
+2. Install dependencies:
+
+npm install
+
+3. Create .env file:
+VITE_API_URL=http://localhost:5000/api
+
+4. Start frontend server: 
+npm run dev -- --host
+Frontend runs on http://localhost:5173 (or next available port).
+
+License
+
+This is **full and ready-to-use** — just save it as `README.md` in the root of your repo.
+
