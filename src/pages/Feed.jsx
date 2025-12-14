@@ -1,32 +1,42 @@
-import { useState, useEffect, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import instagramAPI from "../api/instagramAPI";
 import { AuthContext } from "../context/AuthContext";
 import PostCard from "../components/PostCard";
+import "./Feed.css";
 
-export default function Feed() {
-  const [posts, setPosts] = useState([]);
+export default function Feedd() {
   const { user } = useContext(AuthContext);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    const fetchFeed = async () => {
+      try {
+        if (!user) return;
+        const res = await instagramAPI.get("/posts/feed"); // backend route for feed
+        setPosts(res.data.posts || []);
+      } catch (err) {
+        console.error("Feed fetch error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFeed();
+  }, [user]);
 
-  const fetchPosts = async () => {
-    try {
-      const res = await instagramAPI.get("/posts/all"); // fetch all posts
-      setPosts(res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  if (loading) return <p style={{ textAlign: "center", marginTop: "20px" }}>Loading feed...</p>;
+  if (!posts.length) return <p style={{ textAlign: "center", marginTop: "20px" }}>No posts to show.</p>;
 
   return (
-    <div className="main-content" style={{ maxWidth: "600px", margin: "20px auto" }}>
-      <h2>Home Feed</h2>
-      {posts.map(post => <PostCard key={post._id} post={post} />)}
+    <div className="feed-page">
+      {posts.map((post) => (
+        <PostCard key={post._id} post={post} />
+      ))}
     </div>
   );
 }
+
+
 
 
 

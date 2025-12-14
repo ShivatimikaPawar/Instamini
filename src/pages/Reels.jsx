@@ -1,36 +1,51 @@
-import { useState, useEffect, useContext } from "react";
-import instagramAPI from "../api/instagramAPI";
-import { AuthContext } from "../context/AuthContext";
+import React, { useRef } from "react";
+import "./Reels.css";
 
 export default function Reels() {
-  const [videos, setVideos] = useState([]);
-  const { user } = useContext(AuthContext);
+  const reels = [
+    { id: 1, video: "/reel1.mp4", caption: "🔥 Reel One" },
+    { id: 2, video: "/reel2.mp4", caption: "😎 Reel Two" },
+    { id: 3, video: "/reel3.mp4", caption: "🎵 Reel Three" },
+    { id: 4, video: "/reel4.mp4", caption: "✨ Reel Four" },
+    { id: 5, video: "/reel5.mp4", caption: "🚀 Reel Five" },
+    { id: 6, video: "/reel6.mp4", caption: "❤️ Reel Six" },
+  ];
 
-  useEffect(() => {
-    fetchVideos();
-  }, []);
+  const videoRefs = useRef([]);
 
-  const fetchVideos = async () => {
-    try {
-      const res = await instagramAPI.get("/posts/all"); // fetch all posts
-      // filter only posts with video
-      setVideos(res.data.filter(post => post.video));
-    } catch (err) {
-      console.error(err);
-    }
+  const handlePlayPause = (index) => {
+    const video = videoRefs.current[index];
+    if (video.paused) video.play();
+    else video.pause();
   };
 
   return (
-    <div className="reels-container">
-      {videos.map(post => (
-        <div key={post._id} className="reel-card">
-          <div className="reel-user">{post.user.username}</div>
-          <video src={post.video} controls loop style={{ width: "100%" }} />
-          <p>{post.caption}</p>
+    <div className="reels-page">
+      {reels.map((reel, index) => (
+        <div className="reel-container" key={reel.id}>
+          <video
+            ref={(el) => (videoRefs.current[index] = el)}
+            src={reel.video}
+            className="reel-video"
+            loop
+            muted
+            autoPlay
+            playsInline
+            onClick={() => handlePlayPause(index)}
+          />
+          <div className="reel-overlay">
+            <p>{reel.caption}</p>
+            <div className="actions">
+              ❤️<br />💬<br />↗
+            </div>
+          </div>
         </div>
       ))}
     </div>
   );
 }
+
+
+
 
 
