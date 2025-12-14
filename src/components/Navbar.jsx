@@ -78,7 +78,7 @@ export default function Navbar() {
           <img src="/home.png" alt="Home" className="link-icon" /> Home
         </Link>
 
-        <Link to="/search" className="nav-link">
+        <Link to="/SearchUsers" className="nav-link">
           <img src="/search.png" alt="Search" className="link-icon" /> Search
         </Link>
 
@@ -96,7 +96,7 @@ export default function Navbar() {
           onChange={handlePostUpload}
         />
 
-        <Link to="/reels" className="nav-link">
+        <Link to="/Reels" className="nav-link">
           <img src="/reels.png" alt="Reels" className="link-icon" /> Reels
         </Link>
 
