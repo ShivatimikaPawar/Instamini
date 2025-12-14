@@ -1,91 +1,47 @@
-const router = require("express").Router();
+const express = require("express");
+const router = express.Router();
+const auth = require("../middleware/authMiddleware");
 const Post = require("../models/Post");
-const User = require("../models/User");
-const auth = require("../middleware/auth");
 
-// Create Post
-router.post("/", auth, async (req, res) => {
-  try {
-    const { image, video, caption } = req.body;
-    if (!image && !video) return res.status(400).json({ message: "Provide image or video URL" });
-
-    const post = await Post.create({
-      user: req.user.id,
-      image,
-      video,
-      caption,
-    });
-
-    res.status(201).json(post);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server Error" });
-  }
-});
-
-// Get All Posts (for Home feed)
-router.get("/all", async (req, res) => {
-  try {
-    const posts = await Post.find()
-      .sort({ createdAt: -1 })
-      .populate("user", "username profilePic")
-      .populate("comments.user", "username");
-    res.json(posts);
-  } catch (err) {
-    res.status(500).json({ message: "Server Error" });
-  }
-});
-
-// Feed (posts by following users)
-router.get("/feed", auth, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id);
-    const posts = await Post.find({ user: { $in: user.following } })
-      .sort({ createdAt: -1 })
-      .populate("user", "username profilePic")
-      .populate("comments.user", "username");
-    res.json(posts);
-  } catch (err) {
-    res.status(500).json({ message: "Server Error" });
-  }
-});
-
-// Like a Post
-router.put("/like/:id", auth, async (req, res) => {
+// Like / Unlike a post
+router.put("/:id/like", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if (!post.likes.includes(req.user.id)) {
+    if (!post) return res.status(404).json({ msg: "Post not found" });
+
+    if (post.likes.includes(req.user.id)) {
+      post.likes = post.likes.filter((id) => id.toString() !== req.user.id);
+    } else {
       post.likes.push(req.user.id);
-      await post.save();
-      return res.json(post);
     }
-    res.status(400).json({ message: "Already liked" });
+
+    await post.save();
+    res.json({ likes: post.likes });
   } catch (err) {
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ msg: err.message });
   }
 });
 
-// Unlike a Post
-router.put("/unlike/:id", auth, async (req, res) => {
+// Add a comment
+router.post("/:id/comment", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    post.likes = post.likes.filter((l) => l.toString() !== req.user.id);
-    await post.save();
-    res.json(post);
-  } catch (err) {
-    res.status(500).json({ message: "Server Error" });
-  }
-});
+    if (!post) return res.status(404).json({ msg: "Post not found" });
 
-// Comment on a Post
-router.post("/comment/:id", auth, async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id);
-    post.comments.push({ user: req.user.id, text: req.body.text });
+    const comment = {
+      user: req.user.id,
+      text: req.body.text,
+    };
+
+    post.comments.push(comment);
     await post.save();
-    res.json(post);
+
+    // Populate comments with user info
+    await post.populate({ path: "comments.user", select: "username" });
+
+    res.json({ comments: post.comments });
   } catch (err) {
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ msg: err.message });
   }
 });
 
