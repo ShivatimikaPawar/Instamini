@@ -1,61 +1,57 @@
-import { useContext, useState } from "react";
-import { AuthContext } from "../context/AuthContext.jsx";
+import { useEffect, useState, useContext } from "react";
+import { useParams } from "react-router-dom";
+import instagramAPI from "../api/instagramAPI";
+import { AuthContext } from "../context/AuthContext";
+import PostCard from "../components/PostCard";
 import "./Profile.css";
 
 export default function Profile() {
-  const { user, updateProfilePic, logout } = useContext(AuthContext);
-  const [name, setName] = useState(user?.username || "");
-  const [email, setEmail] = useState(user?.email || "");
-  const [phone, setPhone] = useState(user?.phone || "");
-  const [profilePic, setProfilePic] = useState(user?.profilePic || null);
+  const { id } = useParams();
+  const { user: authData, logout } = useContext(AuthContext);
+  const loggedInUser = authData?.user;
 
-  const handleProfileUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      setProfilePic(reader.result);
-      updateProfilePic?.(reader.result);
+  const [profile, setProfile] = useState(null);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const targetId = id || loggedInUser?._id;
+        if (!targetId) return;
+
+        const res = await instagramAPI.get(`/users/${targetId}`);
+        setProfile(res.data.user);
+        setPosts(res.data.posts || []);
+      } catch (err) {
+        console.error("Profile fetch error:", err);
+      }
     };
-    reader.readAsDataURL(file);
-  };
 
-  const handleLogout = () => {
-    logout();
-    window.close(); // close profile tab
-  };
+    fetchProfile();
+  }, [id, loggedInUser]);
+
+  if (!profile) return <p style={{ textAlign: "center" }}>Loading...</p>;
 
   return (
     <div className="profile-page">
-      <div className="profile-card">
-        <h2>My Profile</h2>
+      <div className="profile-header">
+        <h2>{profile.username}</h2>
+        {!id && <button onClick={logout}>Logout</button>}
+      </div>
 
-        <div className="profile-pic-wrapper">
-          {profilePic ? (
-            <img src={profilePic} alt="Profile" className="profile-pic" />
-          ) : (
-            <div className="profile-initial">{name?.charAt(0).toUpperCase()}</div>
-          )}
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleProfileUpload}
-          />
-        </div>
+      <div className="profile-stats">
+        <span><b>{posts.length}</b> posts</span>
+        <span><b>{profile.followers?.length || 0}</b> followers</span>
+        <span><b>{profile.following?.length || 0}</b> following</span>
+      </div>
 
-        <label>Name:</label>
-        <input value={name} onChange={(e) => setName(e.target.value)} />
-
-        <label>Email:</label>
-        <input value={email} disabled />
-
-        <label>Phone:</label>
-        <input value={phone} onChange={(e) => setPhone(e.target.value)} />
-
-        <button className="logout-btn" onClick={handleLogout}>
-          Logout
-        </button>
+      <div className="profile-posts">
+        {posts.map((p) => (
+          <PostCard key={p._id} post={p} />
+        ))}
       </div>
     </div>
   );
 }
+
+
